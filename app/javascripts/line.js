@@ -18,21 +18,63 @@ $(function() {
 
   var isPhone = $(window).width() <= 640;
 
+  // TODO: inject push dependency
+  var drawLine = function(start, end) {
+    context.beginPath()
+    context.moveTo(start.x, start.y)
+    context.lineTo(end.x, end.y)
+    context.strokeStyle = "#000"
+    context.stroke()
+  }
+
+  var publishLine = function(start, end) {
+    window.sendMessage({
+      type: "line",
+      payload: {
+        start: {
+          x: start.x,
+          y: start.y
+        },
+        end: {
+          x: end.x,
+          y: end.y
+        },
+        user: {
+          id: 66
+        }
+      }
+    })
+  }
+
+  window.subscribe(function(message) {
+    drawLine(message.payload.start, message.payload.end)
+  })
+
   if( !isPhone ) {
     $canvas.mousedown(function(e) {
       e.preventDefault()
       points.start = {
-        x: e.x,
-        y: e.y
+        x: e.pageX,
+        y: e.pageY
       }
     })
 
     $canvas.mouseup(function(e) {
-      context.beginPath()
-      context.moveTo(points.start.x, points.start.y)
-      context.lineTo(e.x, e.y)
-      context.strokeStyle = "#000"
-      context.stroke()
+      e.preventDefault()
+
+      var coordinates = {
+        start: {
+          x: points.start.x,
+          y: points.start.y
+        },
+        end: {
+          x: e.pageX,
+          y: e.pageY
+        }
+      }
+
+      drawLine(coordinates.start, coordinates.end)
+      publishLine(coordinates.start, coordinates.end)
     })
   } else {
     canvas.addEventListener("touchstart", function(e) {
@@ -44,12 +86,19 @@ $(function() {
     }, false)
 
     canvas.addEventListener("touchend", function(e) {
-      context.beginPath()
-      context.moveTo(points.start.x, points.start.y)
-      context.lineTo(e.pageX, e.pageY)
-      context.strokeStyle = "#000"
-      context.stroke()
-      alert("went from " + points.start.x + "," + points.start.y + " to " + e.pageX + "," + e.pageY)
+      var coordinates = {
+        start: {
+          x: points.start.x,
+          y: points.start.y
+        },
+        end: {
+          x: e.x,
+          y: e.y
+        }
+      }
+
+      drawLine(coordinates.start, coordinates.end)
+      publishLine(coordinates.start, coordinates.end)
     }, false)
   }
 })
