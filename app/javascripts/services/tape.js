@@ -22,7 +22,8 @@ angular.module('wb').service('$tape', [
       })
     }
 
-    this.replay = function() {
+    this.replay = function(delay) {
+      if( typeof delay === "undefined" ) delay = 150;
       if( !label ) throw "No label provided. Set one with $tape.find"
 
       $http({
@@ -35,7 +36,7 @@ angular.module('wb').service('$tape', [
         response.data.forEach(function(message) {
           setTimeout(function() {
             $canvas.drawLine(JSON.parse(message).payload.points)
-          }, i * 150)
+          }, i * delay)
           i++;
         })
       })
