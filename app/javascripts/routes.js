@@ -3,7 +3,7 @@ angular.module('wb').config([
   function($routeProvider, $locationProvider) {
     $routeProvider.
         when('/new', { templateUrl: '/views/new.html', controller: 'CreateBoard'}).
-        when('/spaces/:token', { controller: 'Whiteboard', template: ' '}).
+        when('/spaces/:label', { controller: 'Whiteboard', template: ' '}).
         otherwise({redirectTo: '/new'});
 
     $locationProvider.html5Mode(true)

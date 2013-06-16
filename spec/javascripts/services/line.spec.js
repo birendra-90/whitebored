@@ -22,57 +22,69 @@ describe("$line", function() {
   });
 
   describe("#mouseup", function() {
-    beforeEach(function() {
-      line.points = [
-        {x: 0, y: 0},
-        {x: 1, y: 1},
-        {x: 2, y: 2}
-      ]
-
-      spyOn(tape, "save")
-    })
-
-    it("publishes line to push server", function() {
+    it("does nothing unless active", function() {
       spyOn(push, "sendMessage")
-      line.mouseup({ preventDefault: jasmine.createSpy()})
-      expect(push.sendMessage).toHaveBeenCalledWith({
-        type: "line",
-        payload: JSON.stringify({
-          points: [
-            {x: 0, y: 0},
-            {x: 1, y: 1},
-            {x: 2, y: 2}
-          ],
-          user_id: 66
+      spyOn(tape, "save")
+      line.mouseup({preventDefault: jasmine.createSpy()})
+      expect(tape.save).not.toHaveBeenCalled()
+      expect(push.sendMessage).not.toHaveBeenCalled()
+
+    });
+
+    describe("when active", function() {
+      beforeEach(function() {
+        line.mousedown({pageX: 0, pageY: 0, preventDefault: jasmine.createSpy()})
+
+        line.points = [
+          {x: 0, y: 0},
+          {x: 1, y: 1},
+          {x: 2, y: 2}
+        ]
+
+        spyOn(tape, "save")
+      })
+      it("publishes line to push server", function() {
+        spyOn(push, "sendMessage")
+        line.mouseup({ preventDefault: jasmine.createSpy()})
+        expect(push.sendMessage).toHaveBeenCalledWith({
+          type: "line",
+          payload: JSON.stringify({
+            points: [
+              {x: 0, y: 0},
+              {x: 1, y: 1},
+              {x: 2, y: 2}
+            ],
+            user_id: 66
+          })
         })
-      })
-    });
+      });
 
-    it("saves line to tape", function() {
-      line.mouseup({ preventDefault: jasmine.createSpy()})
-      expect(tape.save).toHaveBeenCalledWith("poop", {
-        type: "line",
-        payload: {
-          points: [
-            {x: 0, y: 0},
-            {x: 1, y: 1},
-            {x: 2, y: 2}
-          ],
-          user_id: 66
-        }
-      })
-    });
+      it("saves line to tape", function() {
+        line.mouseup({ preventDefault: jasmine.createSpy()})
+        expect(tape.save).toHaveBeenCalledWith("poop", {
+          type: "line",
+          payload: {
+            points: [
+              {x: 0, y: 0},
+              {x: 1, y: 1},
+              {x: 2, y: 2}
+            ],
+            user_id: 66
+          }
+        })
+      });
 
-    it("clears points", function() {
-      line.mouseup({ preventDefault: jasmine.createSpy()})
-      expect(line.points.length).toEqual(0)
-    });
+      it("clears points", function() {
+        line.mouseup({ preventDefault: jasmine.createSpy()})
+        expect(line.points.length).toEqual(0)
+      });
 
-    it("ends line on canvas", function() {
-      spyOn(canvas, "endLine")
-      line.mouseup({ preventDefault: jasmine.createSpy()})
-      expect(canvas.endLine).toHaveBeenCalled()
-    });
+      it("ends line on canvas", function() {
+        spyOn(canvas, "endLine")
+        line.mouseup({ preventDefault: jasmine.createSpy()})
+        expect(canvas.endLine).toHaveBeenCalled()
+      });
+    })
   });
 
   describe("#mousemove", function() {

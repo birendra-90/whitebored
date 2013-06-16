@@ -12,6 +12,8 @@ describe("$tape", function() {
 
   describe("#record", function() {
     it("sends json to the server", function() {
+      tape.find("slug")
+
       $httpBackend.expectPOST(
         "/api/tapes/save",
         {
@@ -22,7 +24,7 @@ describe("$tape", function() {
         }
       ).respond(200)
 
-      tape.save("slug", {cool: "nice"})
+      tape.save({cool: "nice"})
 
       $httpBackend.flush()
     });

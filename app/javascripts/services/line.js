@@ -8,6 +8,7 @@ angular.module('wb').service('$line', [
     var self = this;
     var queue = []
     var active = false;
+    var locked = false;
 
     $push.subscribe(function(message) {
       queue.push(function() {
@@ -16,10 +17,13 @@ angular.module('wb').service('$line', [
     })
 
     var flush = function() {
-      if( !active ) {
+      if( !active && queue.length ) {
+        locked = true;
         queue.forEach(function(drawFunction) {
           drawFunction()
         })
+        queue = []
+        locked = false;
       }
 
       setTimeout(flush, 200)
@@ -27,6 +31,7 @@ angular.module('wb').service('$line', [
     flush()
 
     this.mousedown = function(e) {
+      if( locked ) return;
       e.preventDefault()
       $canvas.startLine(points(e))
       active = true;
@@ -62,7 +67,7 @@ angular.module('wb').service('$line', [
           })
         })
 
-        $tape.save("poop", {
+        $tape.save({
           type: "line",
           payload: {
             points: packet,

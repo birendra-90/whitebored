@@ -3,7 +3,15 @@
 angular.module('wb').service('$tape', [
   '$http', '$canvas',
   function($http, $canvas) {
-    this.save = function(label, event) {
+    var label;
+
+    this.find = function(newLabel) {
+      label = newLabel;
+    }
+
+    this.save = function(event) {
+      if( !label ) throw "No label provided. Set one with $tape.find"
+
       $http({
         method: "POST",
         url: "/api/tapes/save",
@@ -15,9 +23,11 @@ angular.module('wb').service('$tape', [
     }
 
     this.replay = function() {
+      if( !label ) throw "No label provided. Set one with $tape.find"
+
       $http({
         method: "GET",
-        url: "/api/tapes/poop"
+        url: "/api/tapes/" + label
       }).then(function(response) {
         var i = 0;
         $canvas.clear()
