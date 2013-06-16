@@ -5,11 +5,9 @@ angular.module('wb').service('$canvas', [
     var canvas = $("canvas")
 
     if( !canvas.length ) {
-      var bounds = $(window)
-
-      canvas = $("<canvas></canvas>")
-      canvas.attr({width: bounds.width()})
-      canvas.attr({height: bounds.height()})
+      canvas = $("<canvas></canvas>").hide()
+      canvas.attr({width: 960})
+      canvas.attr({height: 640})
 
       $("body").append(canvas)
     }
@@ -17,10 +15,6 @@ angular.module('wb').service('$canvas', [
     var self = this;
     self.element = canvas;
     self.context = canvas[0].getContext("2d")
-
-    self.context.fillStyle="#7722ff";
-    self.context.fillRect(0,0,10000,20);
-
 
     this.startLine = function(point) {
       self.context.beginPath()

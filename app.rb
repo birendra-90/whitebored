@@ -35,7 +35,7 @@ class App < Sinatra::Base
 
   ["/","/new", "/spaces/*"].each do |route|
     get route do
-      erb :whiteboard
+      erb :index
     end
   end
 end

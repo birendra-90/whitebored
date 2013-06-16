@@ -1,23 +1,11 @@
 <div id="sign_up">
-  <p>Whiteboards you can share.</p>
-  <div id="try_it_out">
-    <a class="hero_button rounded" href="/"><strong>
-    Try it out!</strong>
-    </a>
-  </div>
-
-
-  <h5> Want to save them?</h5>
-  <form onsubmit="alert('Nope.')">
-    <input type="text" email="email address" placeholder="email address">
-    <input type="text" password="password" placeholder="password">
-  </form>
-  <a class="primary_button rounded" href="/">
-    <strong>Sign Up</strong>
-  </a>
-
+  <h1>Whiteboards you can share.</h1>
   <form ng-submit="create()">
-    <input type="text" ng-model="name" placeholder="Name your space"/>
-    <input type="submit" value="Go" />
+    <h5>Name your space</h5>
+    <input type="text" ng-model="name" placeholder="Jam Sesh"/>
+    <input type="submit" value="Go" style="display: none"/>
+    <a class="hero_button rounded" href="/">
+      <strong>Try it out!</strong>
+    </a>
   </form>
 </div>

@@ -1,10 +1,10 @@
-body {font-family: helvetica, arial, sans-serif; font-size: 20px; margin: 0;}
+body {font-family: helvetica, arial, sans-serif; font-size: 20px; margin: 0; padding: 0; background-color: #fbfbfb;}
 
-a {text-decoration: none;display: inline-block;}
+a {text-decoration: none;display: inline-block; cursor: pointer;}
 
 a:visited {text-decoration: none;}
 
-p {margin: 0 0 20px 0;}
+p { margin: 0;}
 
 p.footer_text {
 	font-size: 10px;
@@ -12,6 +12,17 @@ p.footer_text {
 	display: block;
 	text-align: center;
 	padding: 8px;
+  margin-bottom: 20px
+}
+
+a.hero_logo {
+  background-image: url('/images/hero_logo_2X.jpg');
+  background-size: 130px 60px;
+  height: 60px;
+  width: 130px;
+  text-indent: -9999px;
+  margin: 0 auto;
+  display: block;
 }
 
 h5 {margin: 0px auto 0;}
@@ -22,22 +33,16 @@ input[type=text], .rounded {
 	-moz-border-radius: 4px;
 }
 
-a.hero_logo {
-	background-image: url('/images/hero_logo.jpg');
-	height: 60px;
-	width: 130px;
-	text-indent: -9999px;
-	margin: 0 auto;
-	display: block;
-}
-
 header {
 	height: 60px;
 	background-color: white;
 	width: 100%;
 	border-bottom: solid 1px #b2b2b2;
-	margin: 0 0 30px 0;
   position: relative;
+}
+
+#page {
+  padding-top: 30px;
 }
 
 #login {
@@ -53,4 +58,5 @@ footer {
 	margin: 0 auto;
 	width: 100%;
 	border-top: solid 1px #b2b2b2;
+  background-color: white;
 }

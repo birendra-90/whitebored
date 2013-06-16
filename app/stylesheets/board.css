@@ -1,6 +1,18 @@
-body { padding: 0; margin: 0; cursor: pointer;}
+#space {
+  width: 960px;
+  margin: 0 auto;
+  border: 1px solid #b2b2b2;
+}
 
-#toolbelt { position: fixed; bottom: 0; right: 0; background-color: black; color: white;}
-#toolbelt a { color: white;}
+canvas {
+  background-color: white;
+  cursor: pointer;
+}
 
-#toolbelt, canvas { display: none;}
+#toolbelt {
+  box-sizing: border-box;
+  height: 60px;
+  border-top: 1px solid #b2b2b2;
+  text-align: center;
+  padding: 10px 0;
+}
