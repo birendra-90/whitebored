@@ -82,7 +82,7 @@ angular.module('wb').service('$line', [
     }
 
     function points(event) {
-      return { x: event.pageX, y: event.pageY }
+      return { x: event.offsetX, y: event.offsetY }
     }
 
     $canvas.element.mousedown(this.mousedown)

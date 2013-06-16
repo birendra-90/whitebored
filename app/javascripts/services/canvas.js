@@ -9,13 +9,11 @@ angular.module('wb').service('$canvas', [
     self.context = canvas[0].getContext("2d")
 
     this.startLine = function(point) {
-      offsetPoint(point)
       self.context.beginPath()
       self.context.moveTo(point.x, point.y)
     }
 
     this.drawSegment = function(point) {
-      offsetPoint(point)
       self.context.lineTo(point.x, point.y)
       self.context.strokeStyle = "#000"
       self.context.stroke()
@@ -35,11 +33,6 @@ angular.module('wb').service('$canvas', [
 
     this.clear = function() {
       self.context.clearRect(0,0,canvas.width(), canvas.height())
-    }
-
-    function offsetPoint(point) {
-      point.x -= canvas.offset().left
-      point.y -= canvas.offset().top
     }
   }
 ])
