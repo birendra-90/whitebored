@@ -1,0 +1,26 @@
+form{margin: 0 0 10px 0;}
+
+input {
+	height: 30px;
+	width: 100%;
+	margin: 10px auto 0;
+	border: solid 1px #b2b2b2;
+	border-top: solid 2px #b2b2b2;
+	padding: 5px;
+}
+
+input:focus {
+	border: solid 1px #ff3c00;
+	outline: none;
+}
+
+::-webkit-input-placeholder {color: #b6b6b6;}
+:-moz-placeholder {/* Firefox 18- */color: #b6b6b6;}
+::-moz-placeholder {/* Firefox 19+ */color: #b6b6b6;}
+:-ms-input-placeholder {color: #b6b6b6;}
+
+#sign_up {
+	width: 250px;
+	text-align: center;
+	margin: 0 auto;
+}

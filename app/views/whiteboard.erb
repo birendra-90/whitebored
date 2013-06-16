@@ -2,13 +2,33 @@
   <head>
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="stylesheet" href="/stylesheets/board.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/button_styles.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/forms.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/global.css">
+    <title>Whitespace</title>
   </head>
   <body>
+    <header>
+      <a class="hero_logo" href="/">
+        WhiteSpace
+      </a>
+
+      <div id="login">
+        <a class="secondary_button rounded" href="/">
+          <strong>Log In</strong>
+        </a>
+      </div>
+    </header>
+
     <div id="page" ng-view></div>
 
     <div id="toolbelt" ng-controller="Toolbelt">
       <a ng-click='replay()'>Replay</a>
     </div>
+
+    <footer>
+      <p class="footer_text">&#169; The Particular Co. 2013</p>
+    </footer>
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
