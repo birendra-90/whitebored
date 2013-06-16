@@ -25,7 +25,7 @@ class App < Sinatra::Base
     end
 
     get "/tapes/:label" do
-      events = redis.lrange(params[:label], 0, redis.llen(params[:label])) do |event|
+      events = redis.lrange(params[:label], 0, redis.llen(params[:label])).reverse do |event|
         Yajl::Parser.parse(event)
       end
 
