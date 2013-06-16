@@ -2,9 +2,9 @@
   <h1>Whiteboards you can share.</h1>
   <form ng-submit="create()">
     <h5>Name your space</h5>
-    <input type="text" ng-model="name" placeholder="Jam Sesh"/>
+    <input type="text" ng-model="name"/>
     <input type="submit" value="Go" style="display: none"/>
-    <a class="hero_button rounded" href="/">
+    <a ng-click="create()" class="hero_button rounded">
       <strong>Try it out!</strong>
     </a>
   </form>
