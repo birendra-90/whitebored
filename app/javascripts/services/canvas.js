@@ -14,17 +14,21 @@ angular.module('wb').service('$canvas', [
       $("body").append(canvas)
     }
 
-    var context = canvas[0].getContext("2d")
+    var self = this;
+    self.context = canvas[0].getContext("2d")
 
-    context.fillStyle="#7722ff";
-    context.fillRect(0,0,10000,20);
+    self.context.fillStyle="#7722ff";
+    self.context.fillRect(0,0,10000,20);
 
-    this.drawLine = function(start, end) {
-      context.beginPath()
-      context.moveTo(start.x, start.y)
-      context.lineTo(end.x, end.y)
-      context.strokeStyle = "#000"
-      context.stroke()
+    this.drawLine = function(points) {
+      self.context.beginPath()
+      self.context.moveTo(points[0].x, points[0].y)
+      points.forEach(function(point) {
+        self.context.lineTo(point.x, point.y)
+      })
+      self.context.strokeStyle = "#000"
+      self.context.stroke()
+      self.context.closePath()
     }
 
     this.element = canvas;

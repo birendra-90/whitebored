@@ -1,1 +1,5 @@
-console.log("Loaded spec helper")
+beforeEach(module('wb'))
+
+beforeEach(inject(function($httpBackend) {
+  window.$httpBackend = $httpBackend;
+}))

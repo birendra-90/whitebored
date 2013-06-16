@@ -9,7 +9,7 @@ files = [
   'http://cdn.pubnub.com/pubnub-3.5.1.min.js',
   'app/javascripts/module.js',
   'app/javascripts/*/**/*.js',
-  'spec/lib/angular/angular-mocks.js',
+  'spec/angular-mocks.js',
   'spec/javascripts/spec_helper.js',
   'spec/javascripts/**/*.js'
 ];
