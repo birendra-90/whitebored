@@ -44,16 +44,23 @@ angular.module('wb').service('$line', [
 
       e.preventDefault()
 
-      $push.sendMessage({
-        type: "line",
-        payload: JSON.stringify({
-          points: self.points,
-          user_id: 66
-        })
-      })
+      self.pushPoints()
       $canvas.endLine()
       active = false;
       self.points = []
+    }
+
+    this.pushPoints = function() {
+      for( var i = 0; i < self.points.length; i+= 100 ) {
+        var packet = self.points.slice(i, i+100)
+        $push.sendMessage({
+          type: "line",
+          payload: JSON.stringify({
+            points: packet,
+            user_id: 66
+          })
+        })
+      }
     }
 
     function track(points) {
