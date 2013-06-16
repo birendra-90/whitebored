@@ -12,7 +12,7 @@ angular.module('wb').controller('Whiteboard', [
         response.data.forEach(function(message) {
           setTimeout(function() {
             $canvas.drawLine(JSON.parse(message).payload.points)
-          }, i * 150)
+          }, i * 100)
           i++;
         })
       })
