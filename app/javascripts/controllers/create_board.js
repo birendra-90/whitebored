@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('wb').controller('CreateBoard', [
-  function() {
-
+  '$scope', '$location',
+  function($scope, $location) {
+    $scope.create = function() {
+      $location.path('/spaces/' + $scope.name);
+    }
   }
 ])
