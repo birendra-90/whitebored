@@ -5,13 +5,26 @@ angular.module('wb').service('$line', [
   function($push, $canvas) {
     this.points = []
 
+    var self = this;
+    var queue = []
+    var active = false;
+
     $push.subscribe(function(message) {
-      $canvas.drawLine(JSON.parse(message.payload).points)
+      queue.push(function() {
+        $canvas.drawLine(JSON.parse(message.payload).points)
+      })
     })
 
-    var self = this;
+    var flush = function() {
+      if( !active ) {
+        queue.forEach(function(drawFunction) {
+          drawFunction()
+        })
+      }
 
-    var active = false;
+      setTimeout(flush, 200)
+    }
+    flush()
 
     this.mousedown = function(e) {
       e.preventDefault()
