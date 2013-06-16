@@ -1,10 +1,11 @@
 describe("$line", function() {
-  var push, line, canvas;
+  var push, line, canvas, tape;
 
-  beforeEach(inject(function($line, $push, $canvas) {
+  beforeEach(inject(function($line, $push, $canvas, $tape) {
     line = $line;
     push = $push;
     canvas = $canvas;
+    tape = $tape;
   }));
 
   describe("#mousedown", function() {
@@ -27,6 +28,8 @@ describe("$line", function() {
         {x: 1, y: 1},
         {x: 2, y: 2}
       ]
+
+      spyOn(tape, "save")
     })
 
     it("publishes line to push server", function() {
@@ -42,6 +45,21 @@ describe("$line", function() {
           ],
           user_id: 66
         })
+      })
+    });
+
+    it("saves line to tape", function() {
+      line.mouseup({ preventDefault: jasmine.createSpy()})
+      expect(tape.save).toHaveBeenCalledWith("poop", {
+        type: "line",
+        payload: {
+          points: [
+            {x: 0, y: 0},
+            {x: 1, y: 1},
+            {x: 2, y: 2}
+          ],
+          user_id: 66
+        }
       })
     });
 

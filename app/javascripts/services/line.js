@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('wb').service('$line', [
-  '$push', '$canvas',
-  function($push, $canvas) {
+  '$push', '$canvas', '$tape',
+  function($push, $canvas, $tape) {
     this.points = []
 
     var self = this;
@@ -59,6 +59,14 @@ angular.module('wb').service('$line', [
             points: packet,
             user_id: 66
           })
+        })
+
+        $tape.save("poop", {
+          type: "line",
+          payload: {
+            points: packet,
+            user_id: 66
+          }
         })
       }
     }
