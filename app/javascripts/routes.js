@@ -1,10 +1,11 @@
-angular.module('wb').
-  config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+angular.module('wb').config([
+  '$routeProvider', '$locationProvider',
+  function($routeProvider, $locationProvider) {
+    $routeProvider.
+        when('/new', { templateUrl: '/views/new.html', controller: 'CreateBoard'}).
+        when('/spaces/:token', { controller: 'Whiteboard', template: ' '}).
+        otherwise({redirectTo: '/new'});
 
-  $routeProvider.
-      when('/new', { template: '', controller: 'CreateController'}).
-      when('/:token', { controller: 'Whiteboard', templateUrl: '/views/nice'}).
-      otherwise({redirectTo: '/new'});
-
-  $locationProvider.html5Mode(true)
-}]);
+    $locationProvider.html5Mode(true)
+  }
+]);

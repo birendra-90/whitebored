@@ -40,6 +40,7 @@ angular.module('wb').service('$line', [
     }
 
     this.mouseup = function(e) {
+      if( !active ) return;
       if( !self.points ) return console.log("Nope.");
 
       e.preventDefault()
