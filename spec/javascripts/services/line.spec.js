@@ -12,6 +12,12 @@ describe("$line", function() {
       line.mousedown({ pageX: 0, pageY: 0, preventDefault: jasmine.createSpy()})
       expect(line.points).toEqual([{x: 0, y: 0}])
     });
+
+    it("starts a line on the canvas", function() {
+      spyOn(canvas, "startLine")
+      line.mousedown({ pageX: 0, pageY: 0, preventDefault: jasmine.createSpy()})
+      expect(canvas.startLine).toHaveBeenCalledWith({x: 0, y: 0})
+    });
   });
 
   describe("#mouseup", function() {
@@ -22,16 +28,6 @@ describe("$line", function() {
         {x: 2, y: 2}
       ]
     })
-
-    it("draws a line on the canvas", function() {
-      spyOn(canvas, "drawLine")
-      line.mouseup({ preventDefault: jasmine.createSpy()})
-      expect(canvas.drawLine).toHaveBeenCalledWith([
-        {x: 0, y: 0},
-        {x: 1, y: 1},
-        {x: 2, y: 2}
-      ])
-    });
 
     it("publishes line to push server", function() {
       spyOn(push, "sendMessage")
@@ -53,6 +49,12 @@ describe("$line", function() {
       line.mouseup({ preventDefault: jasmine.createSpy()})
       expect(line.points.length).toEqual(0)
     });
+
+    it("ends line on canvas", function() {
+      spyOn(canvas, "endLine")
+      line.mouseup({ preventDefault: jasmine.createSpy()})
+      expect(canvas.endLine).toHaveBeenCalled()
+    });
   });
 
   describe("#mousemove", function() {
@@ -72,6 +74,12 @@ describe("$line", function() {
           x: 123,
           y: 456
         })
+      });
+
+      it("draws a line segment on the canvas", function() {
+        spyOn(canvas, "drawSegment")
+        line.mousemove({ pageX: 10, pageY: 10 })
+        expect(canvas.drawSegment).toHaveBeenCalledWith({x: 10, y: 10})
       });
     });
 

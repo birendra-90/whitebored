@@ -20,15 +20,27 @@ angular.module('wb').service('$canvas', [
     self.context.fillStyle="#7722ff";
     self.context.fillRect(0,0,10000,20);
 
-    this.drawLine = function(points) {
+    this.startLine = function(point) {
       self.context.beginPath()
-      self.context.moveTo(points[0].x, points[0].y)
-      points.forEach(function(point) {
-        self.context.lineTo(point.x, point.y)
-      })
+      self.context.moveTo(point.x, point.y)
+    }
+
+    this.drawSegment = function(point) {
+      self.context.lineTo(point.x, point.y)
       self.context.strokeStyle = "#000"
       self.context.stroke()
+    }
+
+    this.endLine = function() {
       self.context.closePath()
+    }
+
+    this.drawLine = function(points) {
+      self.startLine(points[0])
+      points.slice(1).forEach(function(point) {
+        self.drawSegment(point)
+      })
+      self.endLine()
     }
 
     this.element = canvas;

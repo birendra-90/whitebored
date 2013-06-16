@@ -15,8 +15,15 @@ angular.module('wb').service('$line', [
 
     this.mousedown = function(e) {
       e.preventDefault()
-      track(points(e))
+      $canvas.startLine(points(e))
       active = true;
+      track(points(e))
+    }
+
+    this.mousemove = function(e) {
+      if( !active ) return;
+      $canvas.drawSegment(points(e))
+      track(points(e))
     }
 
     this.mouseup = function(e) {
@@ -24,7 +31,6 @@ angular.module('wb').service('$line', [
 
       e.preventDefault()
 
-      $canvas.drawLine(self.points)
       $push.sendMessage({
         type: "line",
         payload: {
@@ -32,14 +38,9 @@ angular.module('wb').service('$line', [
           user_id: 66
         }
       })
+      $canvas.endLine()
       active = false;
       self.points = []
-    }
-
-    this.mousemove = function(e) {
-      if( !active ) return;
-
-      track(points(e))
     }
 
     function track(points) {
