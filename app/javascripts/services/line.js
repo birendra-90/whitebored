@@ -6,7 +6,7 @@ angular.module('wb').service('$line', [
     this.points = []
 
     $push.subscribe(function(message) {
-      $canvas.drawLine(message.payload.points)
+      $canvas.drawLine(JSON.parse(message.payload).points)
     })
 
     var self = this;
@@ -33,10 +33,10 @@ angular.module('wb').service('$line', [
 
       $push.sendMessage({
         type: "line",
-        payload: {
+        payload: JSON.stringify({
           points: self.points,
           user_id: 66
-        }
+        })
       })
       $canvas.endLine()
       active = false;
