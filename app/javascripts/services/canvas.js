@@ -15,38 +15,38 @@ angular.module('wb').service('$canvas', [
     }
 
     var self = this;
+    self.element = canvas;
     self.context = canvas[0].getContext("2d")
 
     self.context.fillStyle="#7722ff";
     self.context.fillRect(0,0,10000,20);
 
-    this.startLine = function(point, context) {
-      context = context || self.context
-      context.beginPath()
-      context.moveTo(point.x, point.y)
+
+    this.startLine = function(point) {
+      self.context.beginPath()
+      self.context.moveTo(point.x, point.y)
     }
 
-    this.drawSegment = function(point, context) {
-      context = context || self.context
-      context.lineTo(point.x, point.y)
-      context.strokeStyle = "#000"
-      context.stroke()
+    this.drawSegment = function(point) {
+      self.context.lineTo(point.x, point.y)
+      self.context.strokeStyle = "#000"
+      self.context.stroke()
     }
 
-    this.endLine = function(context) {
-      context = context || self.context
-      context.closePath()
+    this.endLine = function() {
+      self.context.closePath()
     }
 
     this.drawLine = function(points) {
-      var context = canvas[0].getContext("2d")
-      self.startLine(points[0], context)
+      self.startLine(points[0], self.context)
       points.slice(1).forEach(function(point) {
-        self.drawSegment(point, context)
+        self.drawSegment(point, self.context)
       })
-      self.endLine(context)
+      self.endLine(self.context)
     }
 
-    this.element = canvas;
+    this.clear = function() {
+      self.context.clearRect(0,0,canvas.width(), canvas.height())
+    }
   }
 ])

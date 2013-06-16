@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('wb').service('$tape', [
-  '$http',
-  function($http) {
+  '$http', '$canvas',
+  function($http, $canvas) {
     this.save = function(label, event) {
       $http({
         method: "POST",
@@ -11,6 +11,23 @@ angular.module('wb').service('$tape', [
           label: label,
           event: event
         }
+      })
+    }
+
+    this.replay = function() {
+      $http({
+        method: "GET",
+        url: "/api/tapes/poop"
+      }).then(function(response) {
+        var i = 0;
+        $canvas.clear()
+
+        response.data.forEach(function(message) {
+          setTimeout(function() {
+            $canvas.drawLine(JSON.parse(message).payload.points)
+          }, i * 150)
+          i++;
+        })
       })
     }
   }
