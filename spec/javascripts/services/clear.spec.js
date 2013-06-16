@@ -9,16 +9,8 @@ describe("$clear", function() {
   describe("#clear", function() {
     it("calls canvas.clear", function() {
       spyOn(canvas, "clear")
-      clear.clear()
+      clear.execute()
       expect(canvas.clear).toHaveBeenCalled()
-    });
-
-    it("sends push event", function() {
-
-    });
-
-    it("stores to tape", function() {
-
     });
   });
 });

@@ -10,13 +10,13 @@ describe("$line", function() {
 
   describe("#mousedown", function() {
     it("stores the current point", function() {
-      line.mousedown({ pageX: 0, pageY: 0, preventDefault: jasmine.createSpy()})
+      line.mousedown({ offsetX: 0, offsetY: 0, preventDefault: jasmine.createSpy()})
       expect(line.points).toEqual([{x: 0, y: 0}])
     });
 
     it("starts a line on the canvas", function() {
       spyOn(canvas, "startLine")
-      line.mousedown({ pageX: 0, pageY: 0, preventDefault: jasmine.createSpy()})
+      line.mousedown({ offsetX: 0, offsetY: 0, preventDefault: jasmine.createSpy()})
       expect(canvas.startLine).toHaveBeenCalledWith({x: 0, y: 0})
     });
   });
@@ -33,7 +33,7 @@ describe("$line", function() {
 
     describe("when active", function() {
       beforeEach(function() {
-        line.mousedown({pageX: 0, pageY: 0, preventDefault: jasmine.createSpy()})
+        line.mousedown({offsetX: 0, offsetY: 0, preventDefault: jasmine.createSpy()})
 
         line.points = [
           {x: 0, y: 0},
@@ -61,7 +61,7 @@ describe("$line", function() {
 
       it("saves line to tape", function() {
         line.mouseup({ preventDefault: jasmine.createSpy()})
-        expect(tape.save).toHaveBeenCalledWith("poop", {
+        expect(tape.save).toHaveBeenCalledWith({
           type: "line",
           payload: {
             points: [
@@ -90,13 +90,13 @@ describe("$line", function() {
   describe("#mousemove", function() {
     describe("when active", function() {
       beforeEach(function() {
-        line.mousedown({pageX: 0, pageY: 0, preventDefault: jasmine.createSpy()})
+        line.mousedown({offsetX: 0, offsetY: 0, preventDefault: jasmine.createSpy()})
       });
 
       it("appends to points", function() {
         line.mousemove({
-          pageX: 123,
-          pageY: 456
+          offsetX: 123,
+          offsetY: 456
         })
 
         expect(line.points.length).toEqual(2)
@@ -108,7 +108,7 @@ describe("$line", function() {
 
       it("draws a line segment on the canvas", function() {
         spyOn(canvas, "drawSegment")
-        line.mousemove({ pageX: 10, pageY: 10 })
+        line.mousemove({ offsetX: 10, offsetY: 10 })
         expect(canvas.drawSegment).toHaveBeenCalledWith({x: 10, y: 10})
       });
     });
@@ -116,8 +116,8 @@ describe("$line", function() {
     describe("when inactive", function() {
       it("does nothing", function() {
         line.mousemove({
-          pageX: 123,
-          pageY: 456
+          offsetX: 123,
+          offsetY: 456
         })
         expect(line.points.length).toBeFalsy()
       });
