@@ -13,12 +13,23 @@ angular.module('wb').service('$event', [
       })
     }
 
-    // this.subscribe = function() {
-    //   $push.subscribe(function(message) {
-    //     queue.push(function() {
-    //       $canvas.drawLine(JSON.parse(message.payload).points)
-    //     })
-    //   })
-    // }
+    var eventHandlers = {}
+
+    this.subscribe = function(type, callback) {
+      eventHandlers[type] = eventHandlers[type] || []
+      eventHandlers[type].push(callback)
+    }
+
+    $push.subscribe(function(message) {
+      if( eventHandlers[message.type] && eventHandlers[message.type].length ) {
+        // unstringify if it's coming from the push server
+        if( typeof message.payload === "string" ) {
+          message.payload = JSON.parse(message.payload)
+        }
+        eventHandlers[message.type].forEach(function(handler) {
+          handler(message.payload)
+        })
+      }
+    })
   }
 ])

@@ -24,6 +24,13 @@ angular.module('wb').service('$line', [
     }
     flush()
 
+    $event.subscribe("line", function(payload) {
+      var payload = payload;
+      queue.push(function() {
+        $canvas.drawLine(payload.points)
+      })
+    })
+
     this.mousedown = function(e) {
       if( locked ) return;
       e.preventDefault()
