@@ -7,20 +7,28 @@ angular.module('wb').service("$push", [
       subscribe_key : 'sub-c-fe4c2890-d5fb-11e2-b813-02ee2ddab7fe'
     });
 
-    pubnub.subscribe({
-      channel : "whiteboard",
-      message : received,
-      connect : established
-    })
-
     var callbacks = []
+    var channel;
+
+    this.switchChannel = function(newChannel) {
+      if( channel ) {
+        console.log("Unsubscribing from " + channel)
+        pubnub.unsubscribe({ channel: channel})
+      }
+
+      channel = newChannel;
+      pubnub.subscribe({
+        channel : channel,
+        message : received,
+        connect : established
+      })
+    }
 
     this.subscribe = function(callback) {
       callbacks.push(callback)
     }
 
-    this.sendMessage = function(message, channel) {
-      channel = channel || "whiteboard"
+    this.sendMessage = function(message) {
       console.debug("Sending Message to '"+ channel +"':")
       console.debug(message)
 
@@ -39,7 +47,7 @@ angular.module('wb').service("$push", [
     }
 
     function established() {
-      console.debug("Established push server connection")
+      console.debug("(Re-)established push server connection")
     }
   }
 ])

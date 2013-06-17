@@ -1,6 +1,8 @@
 angular.module('wb').controller('Whiteboard', [
-  '$line', '$tape', '$routeParams',
-  function($line, $tape, $routeParams) {
+  '$line', '$tape', '$push', '$routeParams',
+  function($line, $tape, $push, $routeParams) {
+    $push.switchChannel($routeParams.label)
+
     $tape.find($routeParams.label)
     $tape.replay(0)
   }
