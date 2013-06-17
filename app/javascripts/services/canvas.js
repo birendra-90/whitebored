@@ -16,6 +16,8 @@ angular.module('wb').service('$canvas', [
     this.drawSegment = function(point) {
       self.context.lineTo(point.x, point.y)
       self.context.strokeStyle = "#000"
+      self.context.lineCap = "round"
+      self.context.lineWidth = 2;
       self.context.stroke()
     }
 
