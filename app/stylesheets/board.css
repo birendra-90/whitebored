@@ -6,7 +6,7 @@
 
 canvas {
   background-color: white;
-  cursor: pointer;
+  cursor: url("/images/pencil.gif");
 }
 
 #toolbelt {

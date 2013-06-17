@@ -30,12 +30,25 @@ angular.module('wb').service('$tape', [
         method: "GET",
         url: "/api/tapes/" + label
       }).then(function(response) {
-        var i = 0;
+        var messages = response.data.map(function(message) {
+          return JSON.parse(message);
+        });
+
         $canvas.clear()
 
-        response.data.forEach(function(message) {
+        if( delay == 0 ) {
+          for( var i = messages.length-1; i > 0; i-- ) {
+            if( messages[i].type == "clear") {
+              messages = messages.slice(i)
+              break;
+            }
+          }
+        }
+
+        var i = 0;
+        messages.forEach(function(message) {
           setTimeout(function() {
-            window.trigger(JSON.parse(message))
+            window.trigger(message)
           }, i * delay)
           i++;
         })
