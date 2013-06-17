@@ -1,11 +1,10 @@
 describe("$line", function() {
-  var push, line, canvas, tape;
+  var line, event, canvas;
 
-  beforeEach(inject(function($line, $push, $canvas, $tape) {
+  beforeEach(inject(function($line, $event, $canvas) {
     line = $line;
-    push = $push;
+    event = $event;
     canvas = $canvas;
-    tape = $tape;
   }));
 
   describe("#mousedown", function() {
@@ -23,12 +22,9 @@ describe("$line", function() {
 
   describe("#mouseup", function() {
     it("does nothing unless active", function() {
-      spyOn(push, "sendMessage")
-      spyOn(tape, "save")
+      spyOn(event, "publish")
       line.mouseup({preventDefault: jasmine.createSpy()})
-      expect(tape.save).not.toHaveBeenCalled()
-      expect(push.sendMessage).not.toHaveBeenCalled()
-
+      expect(event.publish)
     });
 
     describe("when active", function() {
@@ -41,27 +37,12 @@ describe("$line", function() {
           {x: 2, y: 2}
         ]
 
-        spyOn(tape, "save")
+        spyOn(event, "publish")
       })
-      it("publishes line to push server", function() {
-        spyOn(push, "sendMessage")
-        line.mouseup({ preventDefault: jasmine.createSpy()})
-        expect(push.sendMessage).toHaveBeenCalledWith({
-          type: "line",
-          payload: JSON.stringify({
-            points: [
-              {x: 0, y: 0},
-              {x: 1, y: 1},
-              {x: 2, y: 2}
-            ],
-            user_id: 66
-          })
-        })
-      });
 
-      it("saves line to tape", function() {
+      it("publishes line payload", function() {
         line.mouseup({ preventDefault: jasmine.createSpy()})
-        expect(tape.save).toHaveBeenCalledWith({
+        expect(event.publish).toHaveBeenCalledWith({
           type: "line",
           payload: {
             points: [

@@ -1,20 +1,14 @@
 'use strict';
 
 angular.module('wb').service('$line', [
-  '$push', '$canvas', '$tape',
-  function($push, $canvas, $tape) {
+  '$event', '$canvas',
+  function($event, $canvas) {
     this.points = []
 
     var self = this;
     var queue = []
     var active = false;
     var locked = false;
-
-    $push.subscribe(function(message) {
-      queue.push(function() {
-        $canvas.drawLine(JSON.parse(message.payload).points)
-      })
-    })
 
     var flush = function() {
       if( !active && queue.length ) {
@@ -59,15 +53,8 @@ angular.module('wb').service('$line', [
     this.pushPoints = function() {
       for( var i = 0; i < self.points.length; i+= 100 ) {
         var packet = self.points.slice(i, i+100)
-        $push.sendMessage({
-          type: "line",
-          payload: JSON.stringify({
-            points: packet,
-            user_id: 66
-          })
-        })
 
-        $tape.save({
+        $event.publish({
           type: "line",
           payload: {
             points: packet,

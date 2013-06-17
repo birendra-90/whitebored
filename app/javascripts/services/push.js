@@ -21,8 +21,8 @@ angular.module('wb').service("$push", [
 
     this.sendMessage = function(message, channel) {
       channel = channel || "whiteboard"
-      console.log("Sending Message to '"+ channel +"':")
-      console.log(message)
+      console.debug("Sending Message to '"+ channel +"':")
+      console.debug(message)
 
       pubnub.publish({
         channel: channel,
@@ -31,15 +31,15 @@ angular.module('wb').service("$push", [
     }
 
     function received(message) {
-      console.log("Received message:")
-      console.log(message)
+      console.debug("Received message:")
+      console.debug(message)
       callbacks.forEach(function(callback) {
         callback(message)
       })
     }
 
     function established() {
-      console.log("Established push server connection")
+      console.debug("Established push server connection")
     }
   }
 ])
