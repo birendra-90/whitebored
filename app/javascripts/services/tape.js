@@ -35,7 +35,7 @@ angular.module('wb').service('$tape', [
 
         response.data.forEach(function(message) {
           setTimeout(function() {
-            $canvas.drawLine(JSON.parse(message).payload.points)
+            window.trigger(JSON.parse(message))
           }, i * delay)
           i++;
         })

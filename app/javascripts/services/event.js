@@ -20,7 +20,7 @@ angular.module('wb').service('$event', [
       eventHandlers[type].push(callback)
     }
 
-    $push.subscribe(function(message) {
+    this.trigger = function(message) {
       if( eventHandlers[message.type] && eventHandlers[message.type].length ) {
         // unstringify if it's coming from the push server
         if( typeof message.payload === "string" ) {
@@ -30,6 +30,10 @@ angular.module('wb').service('$event', [
           handler(message.payload)
         })
       }
-    })
+    }
+
+    window.trigger = this.trigger
+
+    $push.subscribe(this.trigger)
   }
 ])

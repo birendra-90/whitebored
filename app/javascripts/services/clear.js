@@ -13,5 +13,7 @@ angular.module('wb').service('$clear', [
         }
       })
     }
+
+    $event.subscribe("clear", $canvas.clear)
   }
 ])
