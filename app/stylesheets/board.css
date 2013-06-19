@@ -4,9 +4,29 @@
   border: 1px solid #b2b2b2;
 }
 
+#frame {
+  position: relative;
+}
+
+#frame input[type=text] {
+  padding: 15px 5px;
+  margin: 0;
+  font-family: Helvetica;
+  font-size: 24px;
+  font-weight: bold;
+  position: absolute;
+}
+
 canvas {
   background-color: white;
+}
+
+canvas[data-cursor=pen] {
   cursor: url("/images/pencil.gif");
+}
+
+canvas[data-cursor=text] {
+  cursor: url("/images/text.gif");
 }
 
 #toolbelt {

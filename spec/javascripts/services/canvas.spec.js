@@ -59,4 +59,13 @@ describe("$canvas", function() {
       expect(canvas.context.closePath).toHaveBeenCalled()
     });
   });
+
+  describe("#drawText", function() {
+    it("draws text", function() {
+      spyOn(canvas.context, "fillText")
+
+      canvas.drawText("cool", {x: 20, y: 40})
+      expect(canvas.context.fillText).toHaveBeenCalledWith("cool", 20, 40)
+    });
+  });
 });

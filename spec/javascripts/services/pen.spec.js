@@ -1,21 +1,21 @@
-describe("$line", function() {
-  var line, event, canvas;
+describe("$pen", function() {
+  var pen, event, canvas;
 
-  beforeEach(inject(function($line, $event, $canvas) {
-    line = $line;
+  beforeEach(inject(function($pen, $event, $canvas) {
+    pen = $pen;
     event = $event;
     canvas = $canvas;
   }));
 
   describe("#mousedown", function() {
     it("stores the current point", function() {
-      line.mousedown({ offsetX: 0, offsetY: 0, preventDefault: jasmine.createSpy()})
-      expect(line.points).toEqual([{x: 0, y: 0}])
+      pen.mousedown({ offsetX: 0, offsetY: 0, preventDefault: jasmine.createSpy()})
+      expect(pen.points).toEqual([{x: 0, y: 0}])
     });
 
     it("starts a line on the canvas", function() {
       spyOn(canvas, "startLine")
-      line.mousedown({ offsetX: 0, offsetY: 0, preventDefault: jasmine.createSpy()})
+      pen.mousedown({ offsetX: 0, offsetY: 0, preventDefault: jasmine.createSpy()})
       expect(canvas.startLine).toHaveBeenCalledWith({x: 0, y: 0})
     });
   });
@@ -23,15 +23,15 @@ describe("$line", function() {
   describe("#mouseup", function() {
     it("does nothing unless active", function() {
       spyOn(event, "publish")
-      line.mouseup({preventDefault: jasmine.createSpy()})
+      pen.mouseup({preventDefault: jasmine.createSpy()})
       expect(event.publish)
     });
 
     describe("when active", function() {
       beforeEach(function() {
-        line.mousedown({offsetX: 0, offsetY: 0, preventDefault: jasmine.createSpy()})
+        pen.mousedown({offsetX: 0, offsetY: 0, preventDefault: jasmine.createSpy()})
 
-        line.points = [
+        pen.points = [
           {x: 0, y: 0},
           {x: 1, y: 1},
           {x: 2, y: 2}
@@ -41,7 +41,7 @@ describe("$line", function() {
       })
 
       it("publishes line payload", function() {
-        line.mouseup({ preventDefault: jasmine.createSpy()})
+        pen.mouseup({ preventDefault: jasmine.createSpy()})
         expect(event.publish).toHaveBeenCalledWith({
           type: "line",
           payload: {
@@ -56,13 +56,13 @@ describe("$line", function() {
       });
 
       it("clears points", function() {
-        line.mouseup({ preventDefault: jasmine.createSpy()})
-        expect(line.points.length).toEqual(0)
+        pen.mouseup({ preventDefault: jasmine.createSpy()})
+        expect(pen.points.length).toEqual(0)
       });
 
       it("ends line on canvas", function() {
         spyOn(canvas, "endLine")
-        line.mouseup({ preventDefault: jasmine.createSpy()})
+        pen.mouseup({ preventDefault: jasmine.createSpy()})
         expect(canvas.endLine).toHaveBeenCalled()
       });
     })
@@ -71,17 +71,17 @@ describe("$line", function() {
   describe("#mousemove", function() {
     describe("when active", function() {
       beforeEach(function() {
-        line.mousedown({offsetX: 0, offsetY: 0, preventDefault: jasmine.createSpy()})
+        pen.mousedown({offsetX: 0, offsetY: 0, preventDefault: jasmine.createSpy()})
       });
 
       it("appends to points", function() {
-        line.mousemove({
+        pen.mousemove({
           offsetX: 123,
           offsetY: 456
         })
 
-        expect(line.points.length).toEqual(2)
-        expect(line.points[1]).toEqual({
+        expect(pen.points.length).toEqual(2)
+        expect(pen.points[1]).toEqual({
           x: 123,
           y: 456
         })
@@ -89,18 +89,18 @@ describe("$line", function() {
 
       it("draws a line segment on the canvas", function() {
         spyOn(canvas, "drawSegment")
-        line.mousemove({ offsetX: 10, offsetY: 10 })
+        pen.mousemove({ offsetX: 10, offsetY: 10 })
         expect(canvas.drawSegment).toHaveBeenCalledWith({x: 10, y: 10})
       });
     });
 
     describe("when inactive", function() {
       it("does nothing", function() {
-        line.mousemove({
+        pen.mousemove({
           offsetX: 123,
           offsetY: 456
         })
-        expect(line.points.length).toBeFalsy()
+        expect(pen.points.length).toBeFalsy()
       });
     });
   });

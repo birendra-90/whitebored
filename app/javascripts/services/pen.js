@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('wb').service('$line', [
+angular.module('wb').service('$pen', [
   '$event', '$canvas',
   function($event, $canvas) {
     this.points = []
@@ -71,6 +71,20 @@ angular.module('wb').service('$line', [
       }
     }
 
+    this.activate = function() {
+      $canvas.element.on("mousedown.pen", this.mousedown)
+      $canvas.element.on("mouseup.pen", this.mouseup)
+      $canvas.element.on("mousemove.pen", this.mousemove)
+
+      $canvas.cursor("pen")
+    }
+
+    this.deactivate = function() {
+      $canvas.element.on("mousedown.pen")
+      $canvas.element.on("mouseup.pen")
+      $canvas.element.on("mousemove.pen")
+    }
+
     function track(points) {
       self.points.push({ x: points.x, y: points.y })
     }
@@ -78,9 +92,5 @@ angular.module('wb').service('$line', [
     function points(event) {
       return { x: event.offsetX, y: event.offsetY }
     }
-
-    $canvas.element.mousedown(this.mousedown)
-    $canvas.element.mouseup(this.mouseup)
-    $canvas.element.mousemove(this.mousemove)
   }
 ])
