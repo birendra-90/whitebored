@@ -49,8 +49,6 @@ angular.module('wb').service('$pen', [
       if( !active ) return;
       if( !self.points ) return console.log("Nope.");
 
-      e.preventDefault()
-
       self.pushPoints()
       $canvas.endLine()
       active = false;
@@ -73,16 +71,16 @@ angular.module('wb').service('$pen', [
 
     this.activate = function() {
       $canvas.element.on("mousedown.pen", this.mousedown)
-      $canvas.element.on("mouseup.pen", this.mouseup)
+      $(window).on("mouseup.pen", this.mouseup)
       $canvas.element.on("mousemove.pen", this.mousemove)
 
       $canvas.cursor("pen")
     }
 
     this.deactivate = function() {
-      $canvas.element.on("mousedown.pen")
-      $canvas.element.on("mouseup.pen")
-      $canvas.element.on("mousemove.pen")
+      $canvas.element.off("mousedown.pen")
+      $(window).off("mouseup.pen")
+      $canvas.element.off("mousemove.pen")
     }
 
     function track(points) {
