@@ -51,6 +51,8 @@ angular.module('wb').service('$text', [
 
         removeInput()
         active = false
+      } else if( code == 27) {
+        removeInput()
       }
     }
 
@@ -74,6 +76,7 @@ angular.module('wb').service('$text', [
 
     this.deactivate = function() {
       $canvas.element.off("mouseup.text")
+      removeInput()
     }
 
     function displayInput(point) {
