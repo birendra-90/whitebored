@@ -15,7 +15,7 @@ angular.module('wb').service('$canvas', [
 
     // Text styles
     self.context.textAlign = "left"
-    self.context.textBaseline = "bottom"
+    self.context.textBaseline = "middle"
     self.context.font = "bold 24px Helvetica"
 
     this.startLine = function(point) {

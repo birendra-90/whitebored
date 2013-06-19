@@ -67,6 +67,9 @@ angular.module('wb').service('$text', [
       start = { x: e.offsetX, y: e.offsetY }
       active = true;
       displayInput(start)
+
+      start.x -= 5
+      start.y += 1
     }
 
     this.activate = function() {
