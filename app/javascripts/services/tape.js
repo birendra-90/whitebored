@@ -48,12 +48,25 @@ angular.module('wb').service('$tape', [
 
         var i = 0;
 
-        messages.forEach(function(message) {
-          setTimeout(function() {
-            window.trigger(message)
-          }, i * delay)
+        function replay() {
+          if( !messages[i] ) {
+            return;
+          }
+
+          window.trigger(messages[i])
           i++;
-        })
+
+          if( !messages[i] ) {
+            return;
+          }
+          else if( messages[i].type == "clear" ) {
+            setTimeout(replay, 2000)
+          } else {
+            setTimeout(replay, delay)
+          }
+        }
+
+        replay();
       })
     }
   }
