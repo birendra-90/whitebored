@@ -43,7 +43,7 @@ class App < Sinatra::Base
   end
 
   # as long as there's no . in the name, load
-  get %r{(^/[[:alnum:]/]*$)} do
+  get %r{(^/[^\.]*$)} do
     sprockets = Sprockets::Environment.new
     sprockets.append_path 'app/javascripts'
     @javascripts = sprockets['application.js'].dependencies.map(&:logical_path)
