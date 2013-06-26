@@ -42,14 +42,11 @@ class App < Sinatra::Base
     sprockets['application.css']
   end
 
-
-  ["/","/new", "/spaces/*"].each do |route|
-    get route do
-      sprockets = Sprockets::Environment.new
-      sprockets.append_path 'app/javascripts'
-      @javascripts = sprockets['application.js'].dependencies.map(&:logical_path)
-
-      erb :index
-    end
+  # as long as there's no . in the name, load
+  get %r{(^/[[:alnum:]/]+$)} do
+    sprockets = Sprockets::Environment.new
+    sprockets.append_path 'app/javascripts'
+    @javascripts = sprockets['application.js'].dependencies.map(&:logical_path)
+    erb :index
   end
 end

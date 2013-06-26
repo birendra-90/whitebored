@@ -36,6 +36,7 @@ angular.module('wb').service('$tape', [
 
         $canvas.clear()
 
+        // Bootleg optimization: replace with fabric.js load and save json
         if( delay == 0 ) {
           for( var i = messages.length-1; i > 0; i-- ) {
             if( messages[i].type == "clear") {
@@ -46,6 +47,7 @@ angular.module('wb').service('$tape', [
         }
 
         var i = 0;
+
         messages.forEach(function(message) {
           setTimeout(function() {
             window.trigger(message)
