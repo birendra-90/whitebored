@@ -4,7 +4,7 @@ angular.module('wb').controller('CreateBoard', [
   '$scope', '$location',
   function($scope, $location) {
     $scope.create = function() {
-      $location.path('/spaces/' + $scope.name);
+      $location.path($scope.name);
     }
   }
 ])

@@ -12,7 +12,7 @@ angular.module('wb').service("$push", [
 
     this.switchChannel = function(newChannel) {
       if( channel ) {
-        console.log("Unsubscribing from " + channel)
+        console.debug("Unsubscribing from " + channel)
         pubnub.unsubscribe({ channel: channel})
       }
 
