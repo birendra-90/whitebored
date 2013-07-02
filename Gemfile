@@ -1,9 +1,10 @@
 source "https://rubygems.org"
 
+gem "redis"
 gem "sinatra"
 gem "sinatra-contrib"
 gem "sprockets"
-gem "redis"
+gem "thin"
 gem "yajl-ruby"
 
 group :development do
