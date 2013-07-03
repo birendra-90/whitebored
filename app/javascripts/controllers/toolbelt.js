@@ -15,8 +15,9 @@ angular.module('wb').controller('Toolbelt', [
       activeTool = tool;
     }
 
-    $scope.pen = function(e) {
+    $scope.pen = function(color) {
       activate($pen)
+      if( color ) $pen.setColor(color)
     }
 
     $scope.text = function(e) {

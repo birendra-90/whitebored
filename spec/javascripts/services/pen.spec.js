@@ -20,6 +20,50 @@ describe("$pen", function() {
     });
   });
 
+  describe("#mousemove", function() {
+    describe("when active", function() {
+      beforeEach(function() {
+        pen.mousedown({offsetX: 0, offsetY: 0, preventDefault: jasmine.createSpy()})
+      });
+
+      it("appends to points", function() {
+        pen.mousemove({
+          offsetX: 123,
+          offsetY: 456
+        })
+
+        expect(pen.points.length).toEqual(2)
+        expect(pen.points[1]).toEqual({
+          x: 123,
+          y: 456
+        })
+      });
+
+      it("draws a line segment on the canvas", function() {
+        spyOn(canvas, "drawSegment")
+        pen.mousemove({ offsetX: 10, offsetY: 10 })
+        expect(canvas.drawSegment).toHaveBeenCalledWith({x: 10, y: 10}, { color: "#000000"})
+      });
+
+      it("allows color", function() {
+        spyOn(canvas, "drawSegment")
+        pen.setColor("#f0f0f0")
+        pen.mousemove({ offsetX: 10, offsetY: 10 })
+        expect(canvas.drawSegment).toHaveBeenCalledWith({x: 10, y: 10}, { color: "#f0f0f0"})
+      });
+    });
+
+    describe("when inactive", function() {
+      it("does nothing", function() {
+        pen.mousemove({
+          offsetX: 123,
+          offsetY: 456
+        })
+        expect(pen.points.length).toBeFalsy()
+      });
+    });
+  });
+
   describe("#mouseup", function() {
     it("does nothing unless active", function() {
       spyOn(event, "publish")
@@ -50,6 +94,7 @@ describe("$pen", function() {
               {x: 1, y: 1},
               {x: 2, y: 2}
             ],
+            color: "#000000",
             user_id: 66
           }
         })
@@ -68,40 +113,20 @@ describe("$pen", function() {
     })
   });
 
-  describe("#mousemove", function() {
-    describe("when active", function() {
-      beforeEach(function() {
-        pen.mousedown({offsetX: 0, offsetY: 0, preventDefault: jasmine.createSpy()})
-      });
+  describe("replaying", function() {
+    it("retains points and color", function() {
+      spyOn(canvas, "drawLine")
+      event.trigger({
+        type: "line",
+        payload: {
+          points: [{x: 0, y: 0}, {x: 10, y: 10}],
+          color: "#ff0000"
+        }
+      })
 
-      it("appends to points", function() {
-        pen.mousemove({
-          offsetX: 123,
-          offsetY: 456
-        })
-
-        expect(pen.points.length).toEqual(2)
-        expect(pen.points[1]).toEqual({
-          x: 123,
-          y: 456
-        })
-      });
-
-      it("draws a line segment on the canvas", function() {
-        spyOn(canvas, "drawSegment")
-        pen.mousemove({ offsetX: 10, offsetY: 10 })
-        expect(canvas.drawSegment).toHaveBeenCalledWith({x: 10, y: 10})
-      });
-    });
-
-    describe("when inactive", function() {
-      it("does nothing", function() {
-        pen.mousemove({
-          offsetX: 123,
-          offsetY: 456
-        })
-        expect(pen.points.length).toBeFalsy()
-      });
+      // without a manual flush, this test runs too fast and the queue is never cleared
+      pen.flush()
+      expect(canvas.drawLine).toHaveBeenCalledWith([{x: 0, y: 0}, {x: 10, y: 10}], {color: "#ff0000"})
     });
   });
 });

@@ -3,7 +3,10 @@
     <canvas width="960" height="640"></canvas>
   </div>
   <div id="toolbelt" ng-controller="Toolbelt">
-    <a class="secondary_button rounded" ng-click='pen()'>Pen</a>
+    <a class="secondary_button rounded" ng-click='pen()'>Black Pen</a>
+    <a class="secondary_button rounded" ng-click='pen("#ff0000")'>Red Pen</a>
+    <a class="secondary_button rounded" ng-click='pen("#00ff00")'>Green Pen</a>
+    <a class="secondary_button rounded" ng-click='pen("#0000ff")'>Blue Pen</a>
     <a class="secondary_button rounded" ng-click='text()'>Text</a>
     <a class="secondary_button rounded" ng-click='replay()'>Replay</a>
     <a class="secondary_button rounded" ng-click='clear()'>Clear</a>

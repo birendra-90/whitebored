@@ -9,7 +9,6 @@ angular.module('wb').service('$canvas', [
     self.context = canvas[0].getContext("2d")
 
     // Line styles
-    self.context.strokeStyle = "#000"
     self.context.lineCap = "round"
     self.context.lineWidth = 2;
 
@@ -23,8 +22,10 @@ angular.module('wb').service('$canvas', [
       self.context.moveTo(point.x, point.y)
     }
 
-    this.drawSegment = function(point) {
+    this.drawSegment = function(point, options) {
+      options = options || {}
       self.context.lineTo(point.x, point.y)
+      self.context.strokeStyle = options.color || "#000000"
       self.context.stroke()
     }
 
@@ -36,10 +37,10 @@ angular.module('wb').service('$canvas', [
       self.context.closePath()
     }
 
-    this.drawLine = function(points) {
+    this.drawLine = function(points, options) {
       self.startLine(points[0], self.context)
       points.slice(1).forEach(function(point) {
-        self.drawSegment(point, self.context)
+        self.drawSegment(point, options)
       })
       self.endLine(self.context)
     }

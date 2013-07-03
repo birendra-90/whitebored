@@ -27,6 +27,13 @@ describe("$canvas", function() {
       expect(canvas.context.lineTo).toHaveBeenCalledWith(2,2)
       expect(canvas.context.stroke).toHaveBeenCalled()
     });
+
+    it("sets color and defaults to black", function() {
+      canvas.drawSegment({x: 2, y: 2}, {color: "#ff0000"})
+      expect(canvas.context.strokeStyle).toEqual("#ff0000")
+      canvas.drawSegment({x: 3, y: 3})
+      expect(canvas.context.strokeStyle).toEqual("#000000")
+    });
   });
 
   describe("#endLine", function() {

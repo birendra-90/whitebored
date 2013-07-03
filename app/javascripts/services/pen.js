@@ -9,25 +9,12 @@ angular.module('wb').service('$pen', [
     var queue = []
     var active = false;
     var locked = false;
-
-    var flush = function() {
-      if( !active && queue.length ) {
-        locked = true;
-        queue.forEach(function(drawFunction) {
-          drawFunction()
-        })
-        queue = []
-        locked = false;
-      }
-
-      setTimeout(flush, 200)
-    }
-    flush()
+    var color = "#000000"
 
     $event.subscribe("line", function(payload) {
       var payload = payload;
       queue.push(function() {
-        $canvas.drawLine(payload.points)
+        $canvas.drawLine(payload.points, { color: payload.color })
       })
     })
 
@@ -41,7 +28,7 @@ angular.module('wb').service('$pen', [
 
     this.mousemove = function(e) {
       if( !active ) return;
-      $canvas.drawSegment(points(e))
+      $canvas.drawSegment(points(e), {color: color})
       track(points(e))
     }
 
@@ -63,6 +50,7 @@ angular.module('wb').service('$pen', [
           type: "line",
           payload: {
             points: packet,
+            color: color,
             user_id: 66
           }
         })
@@ -83,6 +71,10 @@ angular.module('wb').service('$pen', [
       $canvas.element.off("mousemove.pen")
     }
 
+    this.setColor = function(newColor) {
+      color = newColor;
+    }
+
     function track(points) {
       self.points.push({ x: points.x, y: points.y })
     }
@@ -90,5 +82,19 @@ angular.module('wb').service('$pen', [
     function points(event) {
       return { x: event.offsetX, y: event.offsetY }
     }
+
+    this.flush = function() {
+      if( !active && queue.length ) {
+        locked = true;
+        queue.forEach(function(drawFunction) {
+          drawFunction()
+        })
+        queue = []
+        locked = false;
+      }
+
+      setTimeout(self.flush, 200)
+    }
+    this.flush()
   }
 ])
